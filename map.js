@@ -9,7 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic3VtbWVyLWdhcnZhaXMiLCJhIjoiY21wN2JobGFsMDBlc
 // Initialize the map
 const map = new mapboxgl.Map({
     container: 'map', // ID of the div where the map will render
-    style: 'mapbox://styles/mapbox/streets-v12', // Map style
+    style: 'mapbox://styles/summer-garvais/cmp7dvvb8004w01sn0jcuerd3', // Map style
     center: [-71.09415, 42.36027], // [longitude, latitude]
     zoom: 12, // Initial zoom level (adjustable)
     minZoom: 9, // Adjustable
