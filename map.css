@@ -1,0 +1,18 @@
+html,
+body {
+    margin: 0;
+    padding: 5;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers map horizontally */
+    align-items: center; /* Centers map vertically */
+}
+
+#map {
+    width: 100%; /* Adjustable */
+    height: 100%; /* Adjustable */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+    border-radius: 8px; /* Rounds corners */
+
+}
