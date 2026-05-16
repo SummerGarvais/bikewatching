@@ -15,10 +15,33 @@
     <title>Bikewatching</title>
 </head>
 <body>
-    <h1>🚴🏼‍♀️ Bikewatching in Boston</h1>
+    <header>
+        <h1>🚴🏼‍♀️ Bikewatching in Boston</h1>
+        <label>
+            Filter by time:
+            <input type="range" id="time-slider" min="-1" max="1439" value="-1"/>
+            <time id="selected-time"></time>
+            <em id="any-time">(any time)</em>
+        </label>
+    </header>
     <p>This map visualizes "Bluebikes" travel in Boston/Cambridge area over the course of a day.</p>
     <div id="map">
         <svg></svg>
+    </div>
+    <div class="legend">
+        <span>Legend:</span>
+        <div style="--departure-ratio: 1">
+            <span class="swatch"></span>
+            More departures
+        </div>
+        <div style="--departure-ratio: 0.5">
+            <span class="swatch"></span>
+            Balanced
+        </div>
+        <div style="--departure-ratio: 0">
+            <span class="swatch"></span>
+            More arrivals
+        </div>
     </div>
 </body>
 </html>

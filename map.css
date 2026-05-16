@@ -32,4 +32,53 @@ body {
     stroke: white;
     stroke-width: 1;
     pointer-events: auto; /* needed for tooltips */
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+        in oklch,
+        var(--color-departures) calc(100% * var(--departure-ratio)),
+        var(--color-arrivals)
+    );
+    fill: var(--color);
+}
+
+/* Shared color variables - apply to both circles and legend */
+#map circle,
+.legend > div {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+        in oklch,
+        var(--color-departures) calc(100% * var(--departure-ratio)),
+        var(--color-arrivals)
+    );
+}
+
+#map circle {
+    fill: var(--color);
+    fill-opacity: 0.6;
+    stroke: white;
+    stroke-width: 1;
+    pointer-events: auto;
+}
+
+.legend {
+    display: flex;
+    gap: 1em;
+    margin-block: 1em;
+    align-items: center;
+}
+
+.legend > div {
+    display: flex;
+    align-items: center;
+    gap: 0.3em; /* small gap so swatch feels connected to label */
+}
+
+.legend .swatch {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: var(--color);
 }

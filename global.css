@@ -9,3 +9,33 @@ body {
     margin: auto;
     padding: 1em;
 }
+
+header {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+}
+
+header label {
+    margin-left: auto;
+}
+
+#selected-time, #any-time {
+    display: block;
+}
+
+#any-time {
+    color: gray;
+    font-style: italic;
+}
+
+#legend {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+        in oklch,
+        var(--color-departures) calc(100% * var(--departure-ratio)),
+        var(--color-arrivals)
+    );
+    fill: var(--color);
+}
