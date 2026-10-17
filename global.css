@@ -1,3 +1,10 @@
+/* Page layout: a centered column, normal top-to-bottom flow */
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+}
 
 body {
     font: 100%/1.5 system-ui, sans-serif;
@@ -8,20 +15,36 @@ body {
     box-sizing: border-box;
     margin: auto;
     padding: 1em;
+    text-align: center;
 }
 
 header {
     display: flex;
     gap: 1em;
     align-items: baseline;
+    text-align: center;
 }
 
 header label {
-    margin-left: auto;
+    display: flex;
+    flex: 1;                    /* label takes all the free width in the header */
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    max-width: 50em;            /* cap it so it doesn't get absurdly long */
+    margin: 0 auto;
 }
 
-#selected-time, #any-time {
-    display: block;
+#time-slider {
+    flex: 1;                    /* slider stretches to fill the row */
+    min-width: 20em;
+}
+
+#selected-time,
+#any-time {
+    flex-basis: 100%;           /* time readout wraps onto its own line below */
+    text-align: center;
 }
 
 #any-time {
@@ -29,13 +52,41 @@ header label {
     font-style: italic;
 }
 
-#legend {
-    --color-departures: steelblue;
-    --color-arrivals: darkorange;
-    --color: color-mix(
-        in oklch,
-        var(--color-departures) calc(100% * var(--departure-ratio)),
-        var(--color-arrivals)
-    );
-    fill: var(--color);
+#takeaways {
+    width: 100%;
+    max-width: 55em;              /* narrower than the map; adjust to taste */
+    box-sizing: border-box;
+    margin: 1.5em auto;           /* auto side margins center the box */
+    padding: 1em 1.5em 1.25em;
+    background: #fff8d6;          /* soft yellow */
+    border: 1px solid #f0e0a0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+#takeaways h2 {
+    margin-top: 0;
+}
+
+#takeaways p:last-child {
+    margin-bottom: 0;
+}
+
+header:has(.title-block) {
+    justify-content: center;
+}
+
+.title-block {
+    text-align: center;
+}
+
+.title-block h1 {
+    margin-bottom: 0;
+    align-self: center;
+}
+
+.byline {
+    margin: 0;
+    color: gray;
+    font-style: italic;
 }

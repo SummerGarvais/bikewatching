@@ -16,32 +16,50 @@
 </head>
 <body>
     <header>
+        <div class="title-block">
         <h1>🚴🏼‍♀️ Bikewatching in Boston</h1>
+        <p class="byline">Summer Garvais</p>
+        </div>
+    </header>
+    <p>Visualizing "Bluebikes" bikeshare travel in Boston/Cambridge area over the course of a day.</p>
+    <section id="map-section">
         <label>
             Filter by time:
+            <button id="play-button" type="button" aria-label="Play">▶</button>
             <input type="range" id="time-slider" min="-1" max="1439" value="-1"/>
             <time id="selected-time"></time>
-            <em id="any-time">(any time)</em>
+            <em id="any-time">(Full-day Totals)</em>
         </label>
-    </header>
-    <p>This map visualizes "Bluebikes" travel in Boston/Cambridge area over the course of a day.</p>
-    <div id="map">
-        <svg></svg>
+
+    
+        <div id="map">
+            <svg></svg>
+            <div id="map-time"></div>
+        </div>
+        <p>Stations are colored based on the ratio of departures to arrivals at that point in the day and are sized according to current activity. Green lines represent bike network.</p>
+        <div class="legend" style="text-align: center;">
+            <span>Legend:</span>
+            <div style="--departure-ratio: 1">
+                <span class="swatch"></span>
+                More departures
+            </div>
+            <div style="--departure-ratio: 0.5">
+                <span class="swatch"></span>
+                Balanced
+            </div>
+            <div style="--departure-ratio: 0">
+                <span class="swatch"></span>
+                More arrivals
+            </div>
+    </section>
     </div>
-    <div class="legend">
-        <span>Legend:</span>
-        <div style="--departure-ratio: 1">
-            <span class="swatch"></span>
-            More departures
-        </div>
-        <div style="--departure-ratio: 0.5">
-            <span class="swatch"></span>
-            Balanced
-        </div>
-        <div style="--departure-ratio: 0">
-            <span class="swatch"></span>
-            More arrivals
-        </div>
-    </div>
+    <section id="takeaways">
+        <h2>Takeaways</h2>
+        <p>The bikeshare data indicates a flow of riders towards the city center during AM peak hours and a flow outwards during PM peak hours.
+           Arrivals and departures remain balanced at most stations during working hours even though ridership remains fairly high; showing balanced directional flows of bike-traffic.
+           Together, this suggests that the bikeshare system is well-utilized by outer-city commuters as well as inner-city users relying on it for intracity travel. 
+           The transfer of bikes from outer-city areas to the inner-city stations in the morning could pose challenges for maintaining consistent access for outer-city users during working hours. 
+           However, these outer-city stations also see high arrivals after work hours, suggesting that there may not be a huge need to redistribute bikes at night to serve commuters the next day.</p>
+    </section>
 </body>
 </html>

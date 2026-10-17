@@ -1,48 +1,26 @@
-
-
-html,
-body {
-    margin: 0;
-    padding: 5;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center; /* Centers map horizontally */ 
-    align-items: center;/* Centers map vertically */
-}
-
+/* ---------- Map container ---------- */
 #map {
-    width: 100%; /* Adjustable */
-    height: 800px; /* Adjustable */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
-    border-radius: 8px; /* Rounds corners */
-
+    width: 100%;
+    height: 500px;        /* definite height: change to taste (e.g. 60vh) */
+    flex: none;           /* don't let the flex column grow or shrink the map */
+    position: relative;   /* anchors the absolutely positioned SVG overlay */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
+/* D3 overlay that sits on top of the Mapbox canvas */
 #map svg {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
-#map circle {
-    fill-opacity: 0.6;
-    stroke: white;
-    stroke-width: 1;
-    pointer-events: auto; /* needed for tooltips */
-    --color-departures: steelblue;
-    --color-arrivals: darkorange;
-    --color: color-mix(
-        in oklch,
-        var(--color-departures) calc(100% * var(--departure-ratio)),
-        var(--color-arrivals)
-    );
-    fill: var(--color);
-}
-
-/* Shared color variables - apply to both circles and legend */
+/* ---------- Shared color logic (station circles + legend) ----------
+   --departure-ratio: 1 = all departures (blue), 0 = all arrivals (orange) */
 #map circle,
 .legend > div {
     --color-departures: steelblue;
@@ -54,25 +32,30 @@ body {
     );
 }
 
+/* ---------- Station circles ---------- */
 #map circle {
     fill: var(--color);
     fill-opacity: 0.6;
     stroke: white;
     stroke-width: 1;
-    pointer-events: auto;
+    pointer-events: auto; /* needed for tooltips */
 }
 
+/* ---------- Legend ---------- */
 .legend {
     display: flex;
+    justify-content: center;   /* centers the items inside the legend */
+    align-items: center;
     gap: 1em;
     margin-block: 1em;
-    align-items: center;
+    margin-inline: auto;       /* centers the legend box itself */
+    width: fit-content;        /* shrink-wraps so margin auto can center it */
 }
 
 .legend > div {
     display: flex;
     align-items: center;
-    gap: 0.3em; /* small gap so swatch feels connected to label */
+    gap: 0.3em;
 }
 
 .legend .swatch {
@@ -81,4 +64,48 @@ body {
     height: 1em;
     border-radius: 50%;
     background-color: var(--color);
+}
+
+#play-button {
+    width: 2em;
+    height: 2em;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    font-size: 1em;
+    line-height: 1;
+}
+
+#play-button:hover {
+    background: #f0f0f0;
+}
+
+#map-time {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;               /* above the SVG overlay (z-index: 1) */
+    padding: 0.3em 0.7em;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums; /* keeps digits from jittering as time changes */
+    pointer-events: none;     /* doesn't block dragging the map */
+}
+
+#map-section {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 1.5em 0;
+    padding: 1em 1.5em 1.25em;
+    background: #f3f4f6;          /* slight gray */
+    border: 1px solid #e2e4e8;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+#map-section > p:first-child {
+    margin-top: 0;                /* no extra gap at the top of the box */
 }

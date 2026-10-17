@@ -143,7 +143,7 @@ map.on('load', async () => {
             // Step 4.4: Tooltip
             d3.select(this)
                 .append('title')
-                .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`)
+                .text(`Full-day Totals: ${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`)
         .style('--departure-ratio', (d) =>
             stationFlow(d.depatures / d.totalTraffic)
         );
@@ -165,6 +165,7 @@ map.on('load', async () => {
     const timeSlider = document.getElementById('time-slider');
     const selectedTime = document.getElementById('selected-time');
     const anyTimeLabel = document.getElementById('any-time');
+    const mapTime = document.getElementById('map-time');
 
     function minutesSinceMidnight(date) {
         return date.getHours() * 60 + date.getMinutes();
@@ -175,10 +176,12 @@ map.on('load', async () => {
 
         if (timeFilter === -1) {
             selectedTime.textContent = ''; // Clear time display
-            anyTimeLabel.style.display = 'block'; // Show "(any time)"
+            anyTimeLabel.style.display = 'block'; // Show "(Full-day Totals)"
+            mapTime.textContent = 'Full-day Totals'; // Update map time display
         } else {
             selectedTime.textContent = formatTime(timeFilter); // Display formatted time
-            anyTimeLabel.style.display = 'none'; // Hide "(any time)"
+            anyTimeLabel.style.display = 'none'; // Hide "(Full-day Totals)"
+            mapTime.textContent = formatTime(timeFilter);
         }
 
         // Call updateScatterPlot to reflect the changes on the map
@@ -220,6 +223,50 @@ map.on('load', async () => {
     }
 
     timeSlider.addEventListener('input', updateTimeDisplay);
+
+    // ---------- Play / pause through the day ----------
+    const playButton = document.getElementById('play-button');
+    const STEP_MINUTES = 10;   // how far the time advances each tick
+    const TICK_MS = 100;       // how often it ticks (lower = faster)
+    let playTimer = null;
+
+    function stopPlaying() {
+        clearInterval(playTimer);
+        playTimer = null;
+        playButton.textContent = '▶';
+        playButton.setAttribute('aria-label', 'Play');
+    }
+
+    function startPlaying() {
+        // If showing "any time" or sitting at the end, restart from midnight
+        if (Number(timeSlider.value) === -1 || Number(timeSlider.value) >= 1439) {
+            timeSlider.value = 0;
+            updateTimeDisplay();
+        }
+        playButton.textContent = '⏸';
+        playButton.setAttribute('aria-label', 'Pause');
+
+        playTimer = setInterval(() => {
+            const next = Number(timeSlider.value) + STEP_MINUTES;
+            if (next >= 1439) {
+                timeSlider.value = 1439;
+                updateTimeDisplay();
+                stopPlaying();            // stop at the end of the day
+                return;
+            }
+            timeSlider.value = next;
+            updateTimeDisplay();
+        }, TICK_MS);
+    }
+
+    playButton.addEventListener('click', () => {
+        playTimer ? stopPlaying() : startPlaying();
+    });
+
+    // Dragging the slider by hand pauses playback
+    timeSlider.addEventListener('pointerdown', () => {
+        if (playTimer) stopPlaying();
+    });
     updateTimeDisplay();
 });
 
